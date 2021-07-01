@@ -3,9 +3,9 @@
 const http = require("http");
 const express = require("express");
 const es6Renderer = require("express-es6-template-engine");
-const exp = require("constants");
+// const exp = require("constants");
 const pgp = require("pg-promise")({});
-const dbsettings = process.env.DATABASE_URL || { database: "jasonmccandless" };
+const dbsettings = process.env.DATABASE_URL || { database: "kcalorie" };
 const db = pgp(dbsettings);
 
 const server = http.createServer(app);
