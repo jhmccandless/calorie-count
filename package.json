@@ -1,0 +1,24 @@
+{
+  "name": "calorie-count",
+  "version": "1.0.0",
+  "description": "App that counts calories with food inserted",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhmccandless/calorie-count.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhmccandless/calorie-count/issues"
+  },
+  "homepage": "https://github.com/jhmccandless/calorie-count#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-es6-template-engine": "^2.2.3",
+    "pg-promise": "^10.10.2"
+  }
+}
