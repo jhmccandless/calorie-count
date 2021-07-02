@@ -1,24 +1,34 @@
 "use strict";
 
-const http = require("http");
+// Imports //
 const express = require("express");
 const es6Renderer = require("express-es6-template-engine");
-// const exp = require("constants");
 const pgp = require("pg-promise")({});
 const dbsettings = process.env.DATABASE_URL || { database: "kcalorie" };
 const db = pgp(dbsettings);
-
-const server = http.createServer(app);
 const app = express();
 
+// Rendering //
 app.engine("html", es6Renderer);
 app.set("views", "templates");
 app.set("view engine", "html");
 app.use("/public", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/", async (req, res) => {
+  try {
+    console.log(res);
+    const results = await db.query(`SELECT * FROM food_items`);
+    res.send({ results });
+  } catch (error) {
+    next(error);
+  }
+
+  // res.send("hello world");
+});
+
 const PORT = process.env.PORT || 3785;
 
-server.listen(PORT, () => {
-  `listenin on port: ${port}`;
+app.listen(PORT, () => {
+  console.log(`listenin on port: ${PORT}`);
 });
