@@ -16,15 +16,8 @@ app.use("/public", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", async (req, res) => {
-  try {
-    console.log(res);
-    const results = await db.query(`SELECT * FROM food_items`);
-    res.send({ results });
-  } catch (error) {
-    next(error);
-  }
-
-  // res.send("hello world");
+  const results = await db.query(`SELECT * FROM food_items`);
+  res.render("homepage.html", { locals: { results } });
 });
 
 const PORT = process.env.PORT || 3785;
