@@ -13,9 +13,42 @@
         <div class="header-item" id="title">kCalorie</div>
         <div class="header-item" id="menu">
           <a>Dashboard</a>
-          <a>New Food</a>
+          <a href="./food_input">New Food</a>
         </div>
       </div>
+      <div id="summary-full">
+        <div id="big-cal">
+          <h2>Calories:</h2>
+          <h1 id="cals-today">3400</h1>
+        </div>
+        <div id="sum-table">
+          <table>
+            <tr>
+              <th>Food</th>
+              <th>Calorie</th>
+              <th>Meal</th>
+              <th>Date</th>
+              <th>Time</th>
+            </tr>
+            ${results.map((el) => `
+            <tr>
+              <th>
+                ${el.food.toLowerCase().slice(0,1).toUpperCase() +
+                el.food.slice(1, el.length).toLowerCase()}
+              </th>
+              <th>${el.calorie}</th>
+              <th>
+                ${el.meal.toLowerCase().slice(0,1).toUpperCase() +
+                el.meal.slice(1, el.length).toLowerCase()}
+              </th>
+              <th>${el.food_date_input.toDateString()}</th>
+              <th>${el.food_time_input}</th>
+            </tr>
+            ` )}
+          </table>
+        </div>
+      </div>
+      <div id="footer">footer here</div>
     </div>
   </body>
 </html>

@@ -1,13 +1,41 @@
-#wrapper {
-  display: grid;
+body,
+html {
+  height: 96%;
+  margin: 10px;
 }
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
+  min-height: 100%;
+}
+
+#wrapper > * {
+  border-style: solid;
+}
+
 #header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: aquamarine;
 }
 
-/* .header-item {
+.header-item {
   border-style: solid;
-} */
+}
+
+#menu a {
+  border-style: solid;
+}
+
+#summary-full,
+#footer {
+  text-align: center;
+}
+
+#sum-table > table:first-type-of {
+  text-align: center;
+  border-style: solid;
+}
