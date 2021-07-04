@@ -15,16 +15,14 @@ app.set("view engine", "html");
 app.use("/public", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", async (req, res) => {
-  try {
-    console.log(res);
-    const results = await db.query(`SELECT * FROM food_items`);
-    res.send({ results });
-  } catch (error) {
-    next(error);
-  }
+app.get("/dashboard", async (req, res) => {
+  const results = await db.query(`SELECT * FROM food_items`);
+  console.log(results);
+  res.render("homepage", { locals: { results } });
+});
 
-  // res.send("hello world");
+app.get("/food_input", (req, res) => {
+  res.render("add-food");
 });
 
 const PORT = process.env.PORT || 3785;
