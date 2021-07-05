@@ -8,16 +8,28 @@
   </head>
   <body>
     Confirm food!!
-
-    <div id="food-input">
-      <ul>
-        <li>Food: ${foodInfo.food}</li>
-        <li>Calories: ${foodInfo.calories}</li>
-        <li>Meal: ${foodInfo.meal}</li>
-        <li>Date: ${foodInfo.date}</li>
-        <li>Time: ${foodInfo.time}</li>
-      </ul>
+    <form>
+      <div id="food-compare">
+        <div id="food-input">
+          <ul>
+            <li>Food: ${foodInfo.food}</li>
+            <li>Calories: ${foodInfo.calories}</li>
+            <li>Meal: ${foodInfo.meal}</li>
+            <li>Date: ${foodInfo.date}</li>
+            <li>Time: ${foodInfo.time}</li>
+          </ul>
+        </div>
+      <input type="submit">
+    </form>
+      <!-- <div id="food-db">
+        <ul>
+          <li>Food: ${foodDB[0].food}</li>
+          <li>Calories: ${foodDB[0].calorie}</li>
+          <li>Meal: ${foodInfo.meal}</li>
+          <li>Date: ${foodInfo.date}</li>
+          <li>Time: ${foodInfo.time}</li>
+        </ul>
+      </div> -->
     </div>
-    <div id="food-compare"></div>
   </body>
 </html>

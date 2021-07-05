@@ -26,24 +26,18 @@ app.get("/dashboard", async (req, res) => {
 app.post("/food_input", (req, res) => {
   foodInfo = req.body;
   console.log(foodInfo);
-  //   db.none(
-  //     `INSERT INTO kcalorie (name, address, category) VALUES ('${foodInfo.food}', '${foodInfo.calories}', '${foodInfo.meal}', '${foodInfo.date}', '${foodInfo.time}')`
-  //   );
+  db.none(
+    `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input) VALUES ('${foodInfo.food}', '${foodInfo.calories}', '${foodInfo.meal}', '${foodInfo.date}', '${foodInfo.time}')`
+  );
   res.redirect(`/food_input/confirmation`);
+});
+
+app.get("/food_input/confirmation", async (req, res) => {
+  res.redirect("/dashboard");
 });
 
 app.get("/food_input", (req, res) => {
   res.render("add-food");
-});
-
-app.get("/food_input/confirmation", (req, res) => {
-  // render ability to get the info from the table to compare, ability to choose which one with a checkbox?
-  res.render("confirm-food", { locals: { foodInfo } });
-});
-
-app.post("/food_input/confirmation", (req, res) => {
-  // need a submit button,
-  res.redirect(`/dashboard`);
 });
 
 const PORT = process.env.PORT || 3785;
@@ -51,3 +45,23 @@ const PORT = process.env.PORT || 3785;
 app.listen(PORT, () => {
   console.log(`listenin on port: ${PORT}`);
 });
+
+/*
+
+// this is for further deveoplement //
+
+app.get("/food_input/confirmation", async (req, res) => {
+  // render ability to get the info from the table to compare, ability to choose which one with a checkbox?
+  const foodDB = await db.any(
+    `SELECT food, calorie FROM food_items WHERE food ILIKE '%${foodInfo.food}%'`
+  );
+  console.log(foodDB);
+  res.render("confirm-food", { locals: { foodInfo, foodDB } });
+});
+
+app.post("/food_input/confirmation", (req, res) => {
+  // need a submit button,
+  console.log(req);
+  res.redirect(`/dashboard`);
+});
+*/
