@@ -16,11 +16,22 @@ app.use("/public", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 let foodInfo;
+let today = new Date();
+let date =
+  today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
 app.get("/dashboard", async (req, res) => {
   const results = await db.query(`SELECT * FROM food_items`);
+  //   use the date to refine table to just today
+  const calSum = await db.query(`SELECT SUM(calorie) FROM food_items`);
+  /*
+    getting todays calories:
+
+    SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}';
+    */
   console.log(results);
-  res.render("homepage", { locals: { results } });
+  console.log(calSum);
+  res.render("homepage", { locals: { results, calSum, date } });
 });
 
 app.post("/food_input", (req, res) => {
