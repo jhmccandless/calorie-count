@@ -22,13 +22,18 @@ let date =
 
 app.get("/dashboard", async (req, res) => {
   const results = await db.query(`SELECT * FROM food_items`);
-  //   use the date to refine table to just today
   const calSum = await db.query(`SELECT SUM(calorie) FROM food_items`);
-  /*
-    getting todays calories:
 
-    SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}';
-    */
+  //   getting todays calories:
+  //   use the date to refine table to just today
+
+  //   const results = await db.query(
+  //     `SELECT * FROM food_items WHERE food_date_input = '${date}'`
+  //   );
+  //   const calSum = await db.query(
+  //     `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}'`
+  //   );
+
   console.log(results);
   console.log(calSum);
   res.render("homepage", { locals: { results, calSum, date } });
