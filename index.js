@@ -34,9 +34,14 @@ app.get("/dashboard", async (req, res) => {
   //     `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}'`
   //   );
 
-  console.log(results);
-  console.log(calSum);
-  res.render("homepage", { locals: { results, calSum, date } });
+  res.render("homepage", {
+    locals: { results, calSum, date, today },
+    partials: {
+      header: "/partials/header",
+      head: "/partials/head",
+      footer: "/partials/footer",
+    },
+  });
 });
 
 app.post("/food_input", (req, res) => {
@@ -53,7 +58,13 @@ app.get("/food_input/confirmation", async (req, res) => {
 });
 
 app.get("/food_input", (req, res) => {
-  res.render("add-food");
+  res.render("add-food", {
+    partials: {
+      header: "/partials/header",
+      head: "/partials/head",
+      footer: "/partials/footer",
+    },
+  });
 });
 
 const PORT = process.env.PORT || 3785;

@@ -1,20 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link href="../public/styles.css" rel="stylesheet" />
-  </head>
+  ${head}
   <body>
     <div id="wrapper">
-      <div id="header">
-        <div class="header-item" id="title">kCalorie</div>
-        <div class="header-item" id="menu">
-          <a>Dashboard</a>
-          <a href="./food_input">New Food</a>
-        </div>
+      ${header}
+      <div id="date-box">
+        <h1>${today}</h1>
+        <!-- make the date on the frontend?? -->
       </div>
       <div id="summary-full">
         <div id="big-cal">
@@ -48,7 +40,7 @@
           </table>
         </div>
       </div>
-      <div id="footer">footer here</div>
+      ${footer}
     </div>
   </body>
 </html>

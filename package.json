@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-es6-template-engine": "^2.2.3",
+    "express-partials": "^0.3.0",
     "pg-promise": "^10.10.2"
   }
 }
