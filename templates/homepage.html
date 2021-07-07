@@ -5,7 +5,7 @@
     <div id="wrapper">
       ${header}
       <div id="date-box">
-        <h1>${today}</h1>
+        <h1 id="date-text">the time</h1>
         <!-- make the date on the frontend?? -->
       </div>
       <div id="summary-full">
@@ -14,7 +14,7 @@
           <h1 id="cals-today">${calSum[0].sum ? calSum[0].sum : 0}</h1>
         </div>
         <div id="sum-table">
-          <table>
+          <table id="cal-table">
             <tr>
               <th>Food</th>
               <th>Calorie</th>
@@ -43,4 +43,5 @@
       ${footer}
     </div>
   </body>
+  <script src="/public/frontend.js"></script>
 </html>
