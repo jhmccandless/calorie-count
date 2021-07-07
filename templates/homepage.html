@@ -1,28 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link href="../public/styles.css" rel="stylesheet" />
-  </head>
+  ${head}
   <body>
     <div id="wrapper">
-      <div id="header">
-        <div class="header-item" id="title">kCalorie</div>
-        <div class="header-item" id="menu">
-          <a>Dashboard</a>
-          <a href="./food_input">New Food</a>
-        </div>
+      ${header}
+      <div id="date-box">
+        <h1 id="date-text">the time</h1>
+        <!-- make the date on the frontend?? -->
       </div>
       <div id="summary-full">
         <div id="big-cal">
           <h2>Calories:</h2>
-          <h1 id="cals-today">3400</h1>
+          <h1 id="cals-today">${calSum[0].sum ? calSum[0].sum : 0}</h1>
         </div>
         <div id="sum-table">
-          <table>
+          <table id="cal-table">
             <tr>
               <th>Food</th>
               <th>Calorie</th>
@@ -44,11 +36,12 @@
               <th>${el.food_date_input.toDateString()}</th>
               <th>${el.food_time_input}</th>
             </tr>
-            ` )}
+            ` ).join('')}
           </table>
         </div>
       </div>
-      <div id="footer">footer here</div>
+      ${footer}
     </div>
   </body>
+  <script src="/public/frontend.js"></script>
 </html>

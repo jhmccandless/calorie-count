@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+  ${head}
   <body>
-    <form>
-      <label id="food">Food</label>
-      <input name="food" /><br />
-      <label id="calories">Calories</label>
-      <input name="calories" /><br />
-      <label id="meal">Meal</label>
-      <input name="meal" /><br />
-      <label id="date">Date</label>
-      <input name="date" /><br />
-      <label id="time">Time</label>
-      <input name="time" /><br />
-      <input type="submit" />
-    </form>
+    ${header}
+    <div id="wrapper">
+      <form method="POST">
+        <label id="food">Food</label>
+        <input type="text" name="food" /><br />
+        <label id="calories">Calories</label>
+        <input type="integer" name="calories" /><br />
+        <label id="meal">Meal</label>
+        <input type="text" name="meal" /><br />
+        <label id="date">Date</label>
+        <input name="date" /><br />
+        <label id="time">Time</label>
+        <input name="time" /><br />
+        <input type="submit" />
+      </form>
+      ${footer}
+    </div>
   </body>
 </html>
