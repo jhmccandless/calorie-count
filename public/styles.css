@@ -3,6 +3,10 @@ html {
   height: 96%;
   margin: 10px;
 }
+h1,
+h2 {
+  margin: 0;
+}
 
 #wrapper {
   display: flex;
@@ -41,11 +45,22 @@ html {
   justify-content: space-between;
   width: 175px;
 }
-
+/* the middle part */
 #summary-full {
+  flex: 1;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-flow: column;
   text-align: center;
+  justify-content: space-around;
 }
 
+/* calorie big */
+#big-cal {
+}
+
+/* table */
 table {
   margin-left: auto;
   margin-right: auto;
@@ -53,6 +68,10 @@ table {
   border: solid;
   width: 100%;
   table-layout: fixed;
+}
+
+tbody th {
+  font-weight: 500;
 }
 
 tbody tr:nth-child(odd) {
@@ -65,7 +84,6 @@ tbody tr:nth-child(even) {
 
 thead {
   border-style: solid;
-  font: small-caps;
 }
 
 #date-box {
