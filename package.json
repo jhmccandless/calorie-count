@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jhmccandless/calorie-count#readme",
   "dependencies": {
+    "dayjs": "^1.10.6",
     "express": "^4.17.1",
     "express-es6-template-engine": "^2.2.3",
     "express-partials": "^0.3.0",

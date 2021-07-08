@@ -7,6 +7,9 @@ const pgp = require("pg-promise")({});
 const dbsettings = process.env.DATABASE_URL || { database: "kcalorie" };
 const db = pgp(dbsettings);
 const app = express();
+const dayjs = require("dayjs");
+const localizedFormat = require("dayjs/plugin/localizedFormat");
+dayjs.extend(localizedFormat);
 
 // Rendering //
 app.engine("html", es6Renderer);
@@ -19,6 +22,11 @@ let foodInfo;
 let today = new Date();
 let date =
   today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+let dateFrontend = function () {
+  return dayjs().format("LLLL");
+};
+
+console.log(dateFrontend());
 
 app.get("/dashboard", async (req, res) => {
   const results = await db.query(`SELECT * FROM food_items`);

@@ -15,28 +15,32 @@
         </div>
         <div id="sum-table">
           <table id="cal-table">
-            <tr>
-              <th>Food</th>
-              <th>Calorie</th>
-              <th>Meal</th>
-              <th>Date</th>
-              <th>Time</th>
-            </tr>
-            ${results.map((el) => `
-            <tr>
-              <th>
-                ${el.food.toLowerCase().slice(0,1).toUpperCase() +
-                el.food.slice(1, el.length).toLowerCase()}
-              </th>
-              <th>${el.calorie}</th>
-              <th>
-                ${el.meal.toLowerCase().slice(0,1).toUpperCase() +
-                el.meal.slice(1, el.length).toLowerCase()}
-              </th>
-              <th>${el.food_date_input.toDateString()}</th>
-              <th>${el.food_time_input}</th>
-            </tr>
-            ` ).join('')}
+            <thead>
+              <tr>
+                <th>Food</th>
+                <th>Calorie</th>
+                <th>Meal</th>
+                <th>Date</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${results.map((el) => `
+              <tr>
+                <th>
+                  ${el.food.toLowerCase().slice(0,1).toUpperCase() +
+                  el.food.slice(1, el.length).toLowerCase()}
+                </th>
+                <th>${el.calorie}</th>
+                <th>
+                  ${el.meal.toLowerCase().slice(0,1).toUpperCase() +
+                  el.meal.slice(1, el.length).toLowerCase()}
+                </th>
+                <th>${el.food_date_input.toDateString()}</th>
+                <th>${el.food_time_input}</th>
+              </tr>
+              ` ).join('')}
+            </tbody>
           </table>
         </div>
       </div>

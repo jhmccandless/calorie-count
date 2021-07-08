@@ -12,39 +12,72 @@ html {
   min-height: 100%;
 }
 
-#wrapper > * {
-  border-style: solid;
-}
-
 #header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-style: solid;
+  height: 30px;
+  align-items: center;
+  padding: 10px;
 }
 
-.header-item {
+.header-item > a {
+  padding: 4px;
+  text-decoration: none;
+  color: inherit;
+}
+
+#menu > a {
   border-style: solid;
 }
 
-#menu a {
-  border-style: solid;
+#title {
+  font-size: 20pt;
 }
 
-#summary-full,
-#footer {
+#menu {
+  display: flex;
+  justify-content: space-between;
+  width: 175px;
+}
+
+#summary-full {
   text-align: center;
 }
 
-#sum-table > table:first-type-of {
-  text-align: center;
-  border-style: solid;
-}
-
-#cal-table {
+table {
   margin-left: auto;
   margin-right: auto;
+  border-collapse: collapse;
+  border: solid;
+  width: 100%;
+  table-layout: fixed;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.233);
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.089);
+}
+
+thead {
+  border-style: solid;
+  font: small-caps;
 }
 
 #date-box {
   text-align: center;
+}
+
+#footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-style: solid;
+  height: 20px;
+  align-items: center;
+  padding: 10px;
 }
