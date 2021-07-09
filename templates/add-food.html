@@ -2,21 +2,37 @@
 <html lang="en">
   ${head}
   <body>
-    ${header}
     <div id="wrapper">
-      <form method="POST">
-        <label id="food">Food</label>
-        <input type="text" name="food" /><br />
-        <label id="calories">Calories</label>
-        <input type="integer" name="calories" /><br />
-        <label id="meal">Meal</label>
-        <input type="text" name="meal" /><br />
-        <label id="date">Date</label>
-        <input name="date" /><br />
-        <label id="time">Time</label>
-        <input name="time" /><br />
-        <input type="submit" />
-      </form>
+      ${header}
+      <div id="title-div">
+        <h1>What Did You Eat?</h1>
+      </div>
+      <div id="form-div">
+        <form method="POST">
+          <label id="food">Food</label>
+          <input type="text" name="food" /><br />
+          <!--  -->
+          <label id="calories">Calories</label>
+          <input type="number" name="calories" /><br />
+          <!--  -->
+          <label id="meal">Meal</label>
+          <select name="meals">
+            <option disabled selected value>Choose Meal</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snack">Snack</option></select
+          ><br />
+          <!--  -->
+          <label id="date">Date</label>
+          <input name="date" /><br />
+          <!--  -->
+          <label id="time">Time</label>
+          <input name="time" /><br />
+          <!--  -->
+          <input type="submit" />
+        </form>
+      </div>
       ${footer}
     </div>
   </body>
