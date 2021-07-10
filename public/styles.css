@@ -8,7 +8,7 @@ h2 {
   margin: 0;
 }
 
-#wrapper {
+.wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -46,7 +46,7 @@ h2 {
   width: 175px;
 }
 /* the middle part */
-#summary-full {
+.summary-full {
   flex: 1;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -99,3 +99,5 @@ thead {
   align-items: center;
   padding: 10px;
 }
+
+/* input page */
