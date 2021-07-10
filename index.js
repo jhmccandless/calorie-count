@@ -7,9 +7,6 @@ const pgp = require("pg-promise")({});
 const dbsettings = process.env.DATABASE_URL || { database: "kcalorie" };
 const db = pgp(dbsettings);
 const app = express();
-const dayjs = require("dayjs");
-const localizedFormat = require("dayjs/plugin/localizedFormat");
-dayjs.extend(localizedFormat);
 
 // Rendering //
 app.engine("html", es6Renderer);
@@ -22,11 +19,6 @@ let foodInfo;
 let today = new Date();
 let date =
   today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-let dateFrontend = function () {
-  return dayjs().format("LLLL");
-};
-
-console.log(dateFrontend());
 
 app.get("/dashboard", async (req, res) => {
   const results = await db.query(`SELECT * FROM food_items`);
@@ -54,7 +46,6 @@ app.get("/dashboard", async (req, res) => {
 
 app.post("/food_input", (req, res) => {
   foodInfo = req.body;
-  console.log(foodInfo);
   db.none(
     `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input) VALUES ('${foodInfo.food}', '${foodInfo.calories}', '${foodInfo.meal}', '${foodInfo.date}', '${foodInfo.time}')`
   );
@@ -99,4 +90,18 @@ app.post("/food_input/confirmation", (req, res) => {
   console.log(req);
   res.redirect(`/dashboard`);
 });
+
+// time formatting //
+ const timeFormatFunc = function (str) {
+    let minutes = str.slice(3, 5);
+    let hours = str.slice(0, 2);
+    let militaryTimeInt = parseInt(hours + minutes);
+    if (militaryTimeInt > 2359 || minutes >= 60) {
+      return "Not A Valid Time";
+    }
+    let mornEve = parseInt(hours) < 11 ? "am" : "pm";
+    let hours12 = parseInt(hours) - 12 < 0 ? hours : hours - 12;
+    return `${hours12}:${parseInt(minutes)} ${mornEve}`;
+  };
+
 */

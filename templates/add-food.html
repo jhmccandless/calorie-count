@@ -2,22 +2,88 @@
 <html lang="en">
   ${head}
   <body>
-    ${header}
-    <div id="wrapper">
-      <form method="POST">
-        <label id="food">Food</label>
-        <input type="text" name="food" /><br />
-        <label id="calories">Calories</label>
-        <input type="integer" name="calories" /><br />
-        <label id="meal">Meal</label>
-        <input type="text" name="meal" /><br />
-        <label id="date">Date</label>
-        <input name="date" /><br />
-        <label id="time">Time</label>
-        <input name="time" /><br />
-        <input type="submit" />
-      </form>
+    <div class="wrapper">
+      ${header}
+      <div class="summary-full">
+        <div id="title-div">
+          <h1>What Did You Eat?</h1>
+        </div>
+        <div id="food-form-div">
+          <form method="POST">
+            <h2>Food</h2>
+            <label id="food">Food</label>
+            <input type="text" name="food" /><br />
+            <!--  -->
+            <label id="calories">Calories</label>
+            <input type="number" name="calories" style="width: 60px" />
+            <!--  -->
+            <label id="meal">Meal</label>
+            <select name="meals">
+              <option disabled selected value>Choose Meal</option>
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="snack">Snack</option></select
+            ><br />
+            <br />
+            <!--  -->
+            <h2>Date</h2>
+            <input type="radio" id="today" name="today" value="Today" />
+            <label for="today">Today</label>
+            <a>&nbsp;OR:&nbsp;</a>
+            <input
+              type="radio"
+              id="user_input"
+              name="today"
+              value="user_input"
+            />
+
+            <label for="user_input">
+              <label id="date">Input:</label>
+              <select name="user_input" id="user_input_month">
+                <option disabled selected value>Month</option>
+              </select>
+              <select name="user_input" id="user_input_day">
+                <option disabled selected value>Day</option>
+              </select>
+              <select name="user_input" id="user_input_year">
+                <option disabled selected value>Year</option></select
+              ><br />
+            </label>
+            <br />
+            <!--  -->
+            <h2>Time</h2>
+            <input type="radio" id="time" name="time" value="Time" />
+            <label for="time">Now</label>
+            <a>&nbsp;OR:&nbsp;</a>
+            <input
+              type="radio"
+              id="user_input_time"
+              name="time"
+              value="user_input"
+            />
+            <label for="user_input_time">
+              <label id="time-input">Input:</label>
+              <select name="user_input" id="user_input_hour">
+                <option disabled selected value>Hour</option>
+              </select>
+              <select name="user_input" id="user_input_minute">
+                <option disabled selected value>Minute</option>
+              </select>
+              <select name="user_input" id="user_input_ap">
+                <option disabled selected value>AM/PM</option>
+              </select>
+            </label>
+            <br />
+            <br />
+
+            <!--  -->
+            <input type="submit" />
+          </form>
+        </div>
+      </div>
       ${footer}
     </div>
   </body>
+  <script src="../public/frontend.js"></script>
 </html>
