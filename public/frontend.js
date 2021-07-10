@@ -20,35 +20,48 @@ if (document.querySelector("#food-form-div")) {
   let currentYear = new Date().toLocaleString("en-US", {
     year: "numeric",
   });
+
   for (let i = 1; i <= 12; i++) {
+    let updatedNumber = i.toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+    });
     document.querySelector(
       "#user_input_month"
-    ).innerHTML += `<option value="0">${i}</option>`;
+    ).innerHTML += `<option value="${updatedNumber}">${updatedNumber}</option>`;
   }
   for (let i = 1; i <= 31; i++) {
+    let updatedNumber = i.toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+    });
     document.querySelector(
       "#user_input_day"
-    ).innerHTML += `<option value="0">${i}</option>`;
+    ).innerHTML += `<option value="${updatedNumber}">${updatedNumber}</option>`;
   }
   for (let i = 2019; i <= currentYear; i++) {
     document.querySelector(
       "#user_input_year"
-    ).innerHTML += `<option value="0">${i}</option>`;
+    ).innerHTML += `<option value="${i}">${i}</option>`;
   }
   for (let i = 1; i <= 12; i++) {
+    let updatedNumber = i.toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+    });
     document.querySelector(
       "#user_input_hour"
-    ).innerHTML += `<option value="0">${i}</option>`;
+    ).innerHTML += `<option value="${updatedNumber}">${updatedNumber}</option>`;
   }
   for (let i = 0; i <= 59; i++) {
+    let updatedNumber = i.toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+    });
     document.querySelector(
       "#user_input_minute"
-    ).innerHTML += `<option value="0">${i}</option>`;
+    ).innerHTML += `<option value="${updatedNumber}">${updatedNumber}</option>`;
   }
   document.querySelector(
     "#user_input_ap"
-  ).innerHTML += `<option value="0">am</option>`;
+  ).innerHTML += `<option value="AM">AM</option>`;
   document.querySelector(
     "#user_input_ap"
-  ).innerHTML += `<option value="0">pm</option>`;
+  ).innerHTML += `<option value="PM">PM</option>`;
 }

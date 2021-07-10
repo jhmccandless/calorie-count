@@ -12,13 +12,19 @@
           <form method="POST">
             <h2>Food</h2>
             <label id="food">Food</label>
-            <input type="text" name="food" /><br />
+            <input type="text" name="food" required /><br />
             <!--  -->
             <label id="calories">Calories</label>
-            <input type="number" name="calories" style="width: 60px" />
+            <input
+              type="number"
+              name="calories"
+              min="0"
+              style="width: 60px"
+              required
+            />
             <!--  -->
             <label id="meal">Meal</label>
-            <select name="meals">
+            <select name="meals" required>
               <option disabled selected value>Choose Meal</option>
               <option value="breakfast">Breakfast</option>
               <option value="lunch">Lunch</option>
@@ -28,7 +34,7 @@
             <br />
             <!--  -->
             <h2>Date</h2>
-            <input type="radio" id="today" name="today" value="Today" />
+            <input type="radio" id="today" name="today" value="Today" checked />
             <label for="today">Today</label>
             <a>&nbsp;OR:&nbsp;</a>
             <input
@@ -53,14 +59,14 @@
             <br />
             <!--  -->
             <h2>Time</h2>
-            <input type="radio" id="time" name="time" value="Time" />
+            <input type="radio" id="time" name="time" value="Time" checked />
             <label for="time">Now</label>
             <a>&nbsp;OR:&nbsp;</a>
             <input
               type="radio"
               id="user_input_time"
               name="time"
-              value="user_input"
+              value="user_input_time"
             />
             <label for="user_input_time">
               <label id="time-input">Input:</label>
