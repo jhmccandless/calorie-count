@@ -43,13 +43,48 @@ app.get("/dashboard", async (req, res) => {
     },
   });
 });
-
 app.post("/food_input", (req, res) => {
+  let actualInputDate;
+  let actualInputTime;
   foodInfo = req.body;
-  db.none(
-    `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input) VALUES ('${foodInfo.food}', '${foodInfo.calories}', '${foodInfo.meal}', '${foodInfo.date}', '${foodInfo.time}')`
-  );
-  res.redirect(`/food_input/confirmation`);
+  if (foodInfo.today === "Today") {
+    actualInputDate = new Date().toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    console.log(actualInputDate);
+  } else if (foodInfo.today === "user_input") {
+    let dbInputMonth = foodInfo.user_input[0];
+    let dbInputDay = foodInfo.user_input[1];
+    let dbInputYear = foodInfo.user_input[2];
+    let actualInputDate = `${dbInputMonth}/${dbInputDay}/${dbInputYear}`;
+    console.log(actualInputDate);
+  }
+  if (foodInfo.time === "Time") {
+    actualInputTime = new Date().toLocaleString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    console.log(actualInputTime);
+  } else if (foodInfo.time === "user_input") {
+    let dbInputHour = foodInfo.user_input[3];
+    let dbInputMinute = foodInfo.user_input[4];
+    let dbInputAP = foodInfo.user_input[5];
+    actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
+    console.log(actualInputTime);
+  } else if (foodInfo.time === "user_input_time") {
+    let dbInputHour = foodInfo.user_input[0];
+    let dbInputMinute = foodInfo.user_input[1];
+    let dbInputAP = foodInfo.user_input[2];
+    actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
+    console.log(actualInputTime);
+  }
+
+  // db.none(
+  //   `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input) VALUES ('${foodInfo.food}', '${foodInfo.calories}', '${foodInfo.meal}', '${foodInfo.date}', '${foodInfo.time}')`
+  // );
+  // res.redirect(`/food_input/confirmation`);
 });
 
 app.get("/food_input/confirmation", async (req, res) => {
