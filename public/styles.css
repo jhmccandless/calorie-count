@@ -43,7 +43,7 @@ h2 {
 #menu {
   display: flex;
   justify-content: space-between;
-  width: 175px;
+  width: 250px;
 }
 /* the middle part */
 .summary-full {
@@ -101,3 +101,4 @@ thead {
 }
 
 /* input page */
+/* detatil page */

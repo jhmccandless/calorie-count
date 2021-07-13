@@ -20,6 +20,15 @@ let today = new Date();
 let date =
   today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
+app.get("/login", async (req, res) => {
+  res.render("login", {
+    partials: {
+      footer: "/partials/footer",
+      head: "/partials/head",
+    },
+  });
+});
+
 app.get("/dashboard", async (req, res) => {
   const results = await db.query(`SELECT * FROM food_items`);
   const calSum = await db.query(`SELECT SUM(calorie) FROM food_items`);
@@ -43,12 +52,11 @@ app.get("/dashboard", async (req, res) => {
     },
   });
 });
+
 app.post("/food_input", (req, res) => {
   let actualInputDate;
   let actualInputTime;
   foodInfo = req.body;
-  console.log(foodInfo);
-  console.log(foodInfo);
   if (foodInfo.today === "Today") {
     actualInputDate = new Date().toLocaleString("en-US", {
       year: "numeric",
@@ -88,6 +96,16 @@ app.post("/food_input", (req, res) => {
 
 app.get("/food_input/confirmation", async (req, res) => {
   res.redirect("/dashboard");
+});
+
+app.get("/cal_details", async (req, res) => {
+  res.render("detail", {
+    partials: {
+      header: "/partials/header",
+      head: "/partials/head",
+      footer: "/partials/footer",
+    },
+  });
 });
 
 app.get("/food_input", (req, res) => {
