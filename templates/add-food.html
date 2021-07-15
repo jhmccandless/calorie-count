@@ -11,10 +11,10 @@
         <div id="food-form-div">
           <form method="POST">
             <h2>Food</h2>
-            <label id="food">Food</label>
+            <label id="food">Food:</label>
             <input type="text" name="food" required /><br />
             <!--  -->
-            <label id="calories">Calories</label>
+            <label id="calories">Calories:</label>
             <input
               type="number"
               name="calories"
@@ -25,7 +25,7 @@
             <!--  -->
             <label id="meal">Meal</label>
             <select name="meals" required>
-              <option disabled selected value>Choose Meal</option>
+              <option disabled selected value>Meal:</option>
               <option value="breakfast">Breakfast</option>
               <option value="lunch">Lunch</option>
               <option value="dinner">Dinner</option>
@@ -47,13 +47,15 @@
             <label for="user_input">
               <label id="date">Input:</label>
               <select name="user_input" id="user_input_month">
-                <option disabled selected value>Month</option>
+                <option disabled selected value>MM</option>
               </select>
+              <a>/</a>
               <select name="user_input" id="user_input_day">
-                <option disabled selected value>Day</option>
+                <option disabled selected value>DD</option>
               </select>
+              <a>/</a>
               <select name="user_input" id="user_input_year">
-                <option disabled selected value>Year</option></select
+                <option disabled selected value>YYYY</option></select
               ><br />
             </label>
             <br />
@@ -71,11 +73,13 @@
             <label for="user_input_time">
               <label id="time-input">Input:</label>
               <select name="user_input" id="user_input_hour">
-                <option disabled selected value>Hour</option>
+                <option disabled selected value>HH</option>
               </select>
+              <a>:</a>
               <select name="user_input" id="user_input_minute">
-                <option disabled selected value>Minute</option>
+                <option disabled selected value>MM</option>
               </select>
+              <a>&nbsp;</a>
               <select name="user_input" id="user_input_ap">
                 <option disabled selected value>AM/PM</option>
               </select>
