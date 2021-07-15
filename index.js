@@ -125,8 +125,16 @@ app.get(
 
 app.get("/dashboard", async (req, res) => {
   // get session.user and make on url
-  const results = await db.query(`SELECT * FROM food_items`);
-  const calSum = await db.query(`SELECT SUM(calorie) FROM food_items`);
+  const results = await db.query(
+    `SELECT * FROM food_items WHERE user_id = ${parseInt(
+      req.session.userGitID
+    )}`
+  );
+  const calSum = await db.query(
+    `SELECT SUM(calorie) FROM food_items WHERE user_id = ${parseInt(
+      req.session.userGitID
+    )}`
+  );
   //   getting todays calories:
   //   use the date to refine table to just today
 
@@ -183,7 +191,13 @@ app.post("/food_input", (req, res) => {
     console.log(actualInputTime);
   }
   db.none(
-    `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input) VALUES ('${foodInfo.food}', '${foodInfo.calories}', '${foodInfo.meals}', '${actualInputDate}', '${actualInputTime}')`
+    `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input, user_id) VALUES ('${
+      foodInfo.food
+    }', '${foodInfo.calories}', '${
+      foodInfo.meals
+    }', '${actualInputDate}', '${actualInputTime}', ${parseInt(
+      req.session.userGitID
+    )})`
   );
   res.redirect(`/food_input/confirmation`);
 });
