@@ -53,10 +53,11 @@ app.use("/public", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
+    httpOnly: false,
     secret: process.env.SECRET_KEY || "dev",
-    resave: true,
+    resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 600000 }, // make longer
+    cookie: { maxAge: 10000 }, // make longer
   })
 );
 app.use(passport.initialize());
@@ -68,8 +69,7 @@ app.use(function (request, response, next) {
   } else if (
     request.path == "/login" ||
     request.path == "/login-return" ||
-    request.path == "/" ||
-    request.path == "/dashboard"
+    request.path == "/"
   ) {
     next();
   } else {
@@ -82,26 +82,17 @@ let today = new Date();
 let date =
   today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
-// app.get("/login", async (req, res) => {
-//   res.render("login", {
-//     partials: {
-//       footer: "/partials/footer",
-//       head: "/partials/head",
-//     },
-//   });
-// });
-
 app.get("/", function (request, response) {
   response.send(`Hello ${request.session.user}`);
 });
 
 app.get(
   "/login",
-  passport.authenticate("github", { scope: ["user:email"] }),
-  function (req, res) {
-    // The request will be redirected to GitHub for authentication, so this
-    // function will not be called.
-  }
+  passport.authenticate("github", { scope: ["user:email"] })
+  // function (req, res) {
+  //   The request will be redirected to GitHub for authentication, so this
+  //   function will not be called.
+  // }
 );
 
 app.get(
@@ -110,13 +101,23 @@ app.get(
   async function (req, res) {
     console.log(req.user);
     req.session.user = req.user.username;
+    req.session.userFullName = req.user.displayName;
+    req.session.userGitID = req.user.id;
+    req.session.location = req.user.location;
     let userCheck = await db.any(
       `SELECT username FROM users WHERE username ILIKE '%${req.session.user}%'`
     );
 
-    if (!userCheck) {
-    }
     console.log(userCheck);
+
+    if (!userCheck[0]) {
+      console.log("new user");
+      await db.none(
+        `INSERT INTO users (username, name, location, git_id) VALUES ('${req.session.user}', '${req.session.userFullName}', '${req.session.location}', ${req.session.userGitID})`
+      );
+    } else {
+      console.log("return user");
+    }
 
     res.redirect("/dashboard");
   }
@@ -213,6 +214,8 @@ app.get("/food_input", (req, res) => {
 
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
+    req.logOut();
+    req.session = null;
     res.redirect("/"); //Inside a callback… bulletproof!
   });
 });

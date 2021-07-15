@@ -43,7 +43,7 @@ h2 {
 #menu {
   display: flex;
   justify-content: space-between;
-  width: 250px;
+  width: 300px;
 }
 /* the middle part */
 .summary-full {
