@@ -59,19 +59,9 @@ app.use(
     secret: process.env.SECRET_KEY || "dev",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 600000 }, // make longer
+    cookie: { maxAge: 1000000 }, // make longer
   })
 );
-
-app.use(function (request, response, next) {
-  if (request.session.user) {
-    next();
-  } else if (request.path == "/login-return" || request.path == "/") {
-    next();
-  } else {
-    response.redirect("/login-return");
-  }
-});
 
 let foodInfo;
 let today = new Date();
@@ -91,23 +81,38 @@ const timeFormatFunc = function (str) {
   return `${hours12}:${parseInt(minutes)} ${mornEve}`;
 };
 
-app.get("/", function (request, response) {
-  response.send(`Hello ${request.session.user}`);
+app.use(function (request, response, next) {
+  if (request.session.user) {
+    next();
+  } else if (request.path == "/login-return" || request.path == "/") {
+    console.log("testing 1");
+    next();
+  } else {
+    console.log("testing 2");
+    response.redirect("/login-return");
+  }
+  // response.redirect("/login-return");
 });
 
 app.get(
   "/login",
-  passport.authenticate("github", {
-    scope: ["user:email"],
-  }),
+  // passport.authenticate(
+  //   "github",
+  //   {
+  //     scope: ["user:email"],
+  //   },
   function (req, res) {
     console.log(req.headers.cookie);
     console.log(req.session);
     console.log(req.sessionID);
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
+    // res.redirect("/login-return");
+    req.session = null;
+    console.log(req.headers);
     res.redirect("/login-return");
   }
+  // )
 );
 
 app.get(
@@ -124,6 +129,7 @@ app.get(
     );
 
     // console.log(userCheck);
+    console.log("got to return");
     if (!userCheck[0]) {
       // console.log("new user");
       await db.none(
@@ -173,6 +179,7 @@ app.get("/dashboard", async (req, res) => {
 });
 
 app.post("/food_input", (req, res) => {
+  console.log("trujg to insert food");
   let actualInputDate;
   let actualInputTime;
   foodInfo = req.body;
@@ -204,6 +211,9 @@ app.post("/food_input", (req, res) => {
     let dbInputAP = foodInfo.user_input[2];
     actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
   }
+
+  console.log(actualInputDate, actualInputTime);
+
   db.none(
     `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input, user_id) VALUES ('${
       foodInfo.food
@@ -372,48 +382,15 @@ app.get("/food_input", (req, res) => {
   });
 });
 
-// app.get("/logout-page", (req, res) => {
-//   res.send("logged out");
-// });
-
-// app.get("/logout", function (req, res) {
-//   console.log(req.user);
-//   req.logout();
-//   res.redirect("/logout-page");
-//   req.session.destroy(function (err) {
-//     console.log("logging out");
-//     if (err) {
-//       // console.log(err);
-//     } else {
-//       console.log("logged out");
-//       // session.destroy();
-//   req.session = null;
-//       console.log(req.cookies);
-//       delete req.cookies;
-//       console.log(req.cookies, "at the end");
-//       req.end();
-//     }
-//   });
-// });
-
-// app.get("/logout", function (req, res) {
-//   req.session.destroy(function (err) {
-//     // res.redirect("/");
-//   });
-//   res.status(200).clearCookie("connect.sid", {
-//     path: "/",
-//   });
-//   req.logOut();
-// });
-
 app.get("/logout", function (req, res) {
   res.clearCookie("connect.sid");
   req.session.destroy(function (err) {
     req.session = null;
     req.user = null;
     req.logOut();
-    res.redirect("/");
+    console.log("logged out");
   });
+  res.render("logout");
 });
 
 const PORT = process.env.PORT || 3785;
