@@ -51,17 +51,17 @@ app.set("views", "templates");
 app.set("view engine", "html");
 app.use("/public", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(
   session({
     httpOnly: false,
     secret: process.env.SECRET_KEY || "dev",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 10000 }, // make longer
+    cookie: { maxAge: 600000 }, // make longer
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(function (request, response, next) {
   if (request.session.user) {
@@ -88,8 +88,13 @@ app.get("/", function (request, response) {
 
 app.get(
   "/login",
-  passport.authenticate("github", { scope: ["user:email"] })
-  // function (req, res) {
+  passport.authenticate("github", {
+    scope: ["user:email"],
+  })
+  // async function (req, res) {
+  //   console.log(req.headers.cookie);
+  //   console.log(req.session);
+  //   console.log(req.sessionID);
   //   The request will be redirected to GitHub for authentication, so this
   //   function will not be called.
   // }
@@ -99,7 +104,7 @@ app.get(
   "/login-return",
   passport.authenticate("github", { failureRedirect: "/login-failure" }),
   async function (req, res) {
-    console.log(req.user);
+    // console.log(req.user);
     req.session.user = req.user.username;
     req.session.userFullName = req.user.displayName;
     req.session.userGitID = req.user.id;
@@ -108,18 +113,18 @@ app.get(
       `SELECT username FROM users WHERE username ILIKE '%${req.session.user}%'`
     );
 
-    console.log(userCheck);
+    // console.log(userCheck);
 
     if (!userCheck[0]) {
       console.log("new user");
       await db.none(
         `INSERT INTO users (username, name, location, git_id) VALUES ('${req.session.user}', '${req.session.userFullName}', '${req.session.location}', ${req.session.userGitID})`
       );
+      res.redirect("/dashboard");
     } else {
-      console.log("return user");
+      // console.log("return user");
+      res.redirect("/dashboard");
     }
-
-    res.redirect("/dashboard");
   }
 );
 
@@ -207,7 +212,48 @@ app.get("/food_input/confirmation", async (req, res) => {
 });
 
 app.get("/cal_details", async (req, res) => {
+  const resultsDay = await db.query(
+    `SELECT * FROM food_items WHERE user_id = ${parseInt(
+      req.session.userGitID
+    )}`
+  );
+  const calSumDay = await db.query(
+    `SELECT SUM(calorie) FROM food_items WHERE user_id = ${parseInt(
+      req.session.userGitID
+    )}`
+  );
+  const resultsWeek = await db.query(
+    `SELECT * FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' ORDER BY food_date_input ASC`
+  );
+  const calSumWeek = await db.query(
+    `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days'`
+  );
+  const resultsMonth = await db.query(
+    `SELECT * FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '30 days' ORDER BY food_date_input ASC`
+  );
+  const calSumMonth = await db.query(
+    `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '30 days'`
+  );
+
+  console.log(calSumDay, calSumWeek);
+
+  // getting all within the past 7 days:
+  // SELECT * FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days'
+
+  // getting the month
+  // SELECT * FROM food_items WHERE food_date_input >= date_trunc('month', now()) - INTERVAL '1 month'
   res.render("detail", {
+    locals: {
+      resultsDay,
+      calSumDay,
+      resultsMonth,
+      calSumMonth,
+      date,
+      today,
+      session: req.session,
+      resultsWeek,
+      calSumWeek,
+    },
     partials: {
       header: "/partials/header",
       head: "/partials/head",
@@ -226,11 +272,47 @@ app.get("/food_input", (req, res) => {
   });
 });
 
+// app.get("/logout-page", (req, res) => {
+//   res.send("logged out");
+// });
+
+// app.get("/logout", function (req, res) {
+//   console.log(req.user);
+//   req.logout();
+//   res.redirect("/logout-page");
+//   req.session.destroy(function (err) {
+//     console.log("logging out");
+//     if (err) {
+//       // console.log(err);
+//     } else {
+//       console.log("logged out");
+//       // session.destroy();
+//   req.session = null;
+//       console.log(req.cookies);
+//       delete req.cookies;
+//       console.log(req.cookies, "at the end");
+//       req.end();
+//     }
+//   });
+// });
+
+// app.get("/logout", function (req, res) {
+//   req.session.destroy(function (err) {
+//     // res.redirect("/");
+//   });
+//   res.status(200).clearCookie("connect.sid", {
+//     path: "/",
+//   });
+//   req.logOut();
+// });
+
 app.get("/logout", function (req, res) {
+  res.clearCookie("connect.sid");
   req.session.destroy(function (err) {
-    req.logOut();
     req.session = null;
-    res.redirect("/"); //Inside a callback… bulletproof!
+    req.user = null;
+    req.logOut();
+    res.redirect("/");
   });
 });
 

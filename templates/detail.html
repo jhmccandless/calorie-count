@@ -4,8 +4,131 @@
   <body>
     <div class="wrapper">
       ${header}
-      <div></div>
+      <div class="summary-full">
+        <div class="today-detail">
+          <div id="big-cal">
+            <h2>Calories:</h2>
+            <h1 id="cals-today">${calSumDay[0].sum ? calSumDay[0].sum : 0}</h1>
+          </div>
+          <div id="sum-table">
+            <table id="cal-table">
+              <thead>
+                <tr>
+                  <th>Food</th>
+                  <th>Calorie</th>
+                  <th>Meal</th>
+                  <th>Time</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${resultsDay.map((el) => `
+                <tr>
+                  <th>
+                    ${el.food.toLowerCase().slice(0,1).toUpperCase() +
+                    el.food.slice(1, el.length).toLowerCase()}
+                  </th>
+                  <th>${el.calorie}</th>
+                  <th>
+                    ${el.meal.toLowerCase().slice(0,1).toUpperCase() +
+                    el.meal.slice(1, el.length).toLowerCase()}
+                  </th>
+                  <th>${el.food_time_input}</th>
+                  <th>
+                    ${el.food_date_input.toLocaleString( 'en-US', { day:
+                    "numeric", year: "numeric", month: "long",})}
+                  </th>
+                </tr>
+                ` ).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="seven-day-detail">
+          <div id="big-cal">
+            <h2>Calories:</h2>
+            <h1 id="cals-today">
+              ${calSumWeek[0].sum ? calSumWeek[0].sum : 0}
+            </h1>
+          </div>
+          <div id="sum-table">
+            <table id="cal-table">
+              <thead>
+                <tr>
+                  <th>Food</th>
+                  <th>Calorie</th>
+                  <th>Meal</th>
+                  <th>Time</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${resultsWeek.map((el) => `
+                <tr>
+                  <th>
+                    ${el.food.toLowerCase().slice(0,1).toUpperCase() +
+                    el.food.slice(1, el.length).toLowerCase()}
+                  </th>
+                  <th>${el.calorie}</th>
+                  <th>
+                    ${el.meal.toLowerCase().slice(0,1).toUpperCase() +
+                    el.meal.slice(1, el.length).toLowerCase()}
+                  </th>
+                  <th>${el.food_time_input}</th>
+                  <th>
+                    ${el.food_date_input.toLocaleString( 'en-US', { day:
+                    "numeric", year: "numeric", month: "long",})}
+                  </th>
+                </tr>
+                ` ).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="month-detail">
+          <div id="big-cal">
+            <h2>Calories:</h2>
+            <h1 id="cals-today">
+              ${calSumMonth[0].sum ? calSumMonth[0].sum : 0}
+            </h1>
+          </div>
+          <div id="sum-table">
+            <table id="cal-table">
+              <thead>
+                <tr>
+                  <th>Food</th>
+                  <th>Calorie</th>
+                  <th>Meal</th>
+                  <th>Time</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${resultsMonth.map((el) => `
+                <tr>
+                  <th>
+                    ${el.food.toLowerCase().slice(0,1).toUpperCase() +
+                    el.food.slice(1, el.length).toLowerCase()}
+                  </th>
+                  <th>${el.calorie}</th>
+                  <th>
+                    ${el.meal.toLowerCase().slice(0,1).toUpperCase() +
+                    el.meal.slice(1, el.length).toLowerCase()}
+                  </th>
+                  <th>${el.food_time_input}</th>
+                  <th>
+                    ${el.food_date_input.toLocaleString( 'en-US', { day:
+                    "numeric", year: "numeric", month: "long",})}
+                  </th>
+                </tr>
+                ` ).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       ${footer}
     </div>
   </body>
+  <script src="/public/frontend.js"></script>
 </html>
