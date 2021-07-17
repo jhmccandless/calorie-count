@@ -108,17 +108,37 @@
             <h4 id="cals-breakfast-week">
               ${calSumWeekBreak[0].sum ? calSumWeekBreak[0].sum : 0}
             </h4>
+            <h3>Average Breakfast Calories:</h3>
+            <h4 id="cals-breakfast-week-avg">
+              ${calSumWeekBreak[0].sum ? (calSumWeekBreak[0].sum/7).toFixed(2) :
+              0}
+            </h4>
             <h3>Lunch Calories:</h3>
             <h4 id="cals-lunch-week">
               ${calSumWeekLunch[0].sum ? calSumWeekLunch[0].sum : 0}
+            </h4>
+            <h3>Average Lunch Calories:</h3>
+            <h4 id="cals-lunch-week-avg">
+              ${calSumWeekLunch[0].sum ? (calSumWeekLunch[0].sum/7).toFixed(2) :
+              0}
             </h4>
             <h3>Dinner Calories:</h3>
             <h4 id="cals-Dinner-week">
               ${calSumWeekDinner[0].sum ? calSumWeekDinner[0].sum : 0}
             </h4>
+            <h3>Average Dinner Calories:</h3>
+            <h4 id="cals-Dinner-week-avg">
+              ${calSumWeekDinner[0].sum ? (calSumWeekDinner[0].sum/7).toFixed(2)
+              : 0}
+            </h4>
             <h3>Snack Calories:</h3>
             <h4 id="cals-Dinner-week">
-              ${calSumWeekDinner[0].sum ? calSumWeekDinner[0].sum : 0}
+              ${calSumWeekSnack[0].sum ? calSumWeekSnack[0].sum : 0}
+            </h4>
+            <h3>Average Snack Calories:</h3>
+            <h4 id="cals-Dinner-week-avg">
+              ${calSumWeekSnack[0].sum ? (calSumWeekSnack[0].sum/7).toFixed(2) :
+              0}
             </h4>
           </div>
         </div>
@@ -162,6 +182,44 @@
                 ` ).join('')}
               </tbody>
             </table>
+          </div>
+          <div class="meals-details">
+            <h3>Breakfast Calories:</h3>
+            <h4 id="cals-breakfast-month">
+              ${calSumMonthBreak[0].sum ? calSumMonthBreak[0].sum : 0}
+            </h4>
+            <h3>Average Breakfast Calories:</h3>
+            <h4 id="cals-breakfast-month-avg">
+              ${calSumMonthBreak[0].sum ?
+              (calSumMonthBreak[0].sum/30).toFixed(2) : 0}
+            </h4>
+            <h3>Lunch Calories:</h3>
+            <h4 id="cals-lunch-month">
+              ${calSumMonthLunch[0].sum ? calSumMonthLunch[0].sum : 0}
+            </h4>
+            <h3>Average Lunch Calories:</h3>
+            <h4 id="cals-lunch-month-avg">
+              ${calSumMonthLunch[0].sum ?
+              (calSumMonthLunch[0].sum/30).toFixed(2) : 0}
+            </h4>
+            <h3>Dinner Calories:</h3>
+            <h4 id="cals-Dinner-month">
+              ${calSumMonthDinner[0].sum ? calSumMonthDinner[0].sum : 0}
+            </h4>
+            <h3>Average Dinner Calories:</h3>
+            <h4 id="cals-Dinner-month-avg">
+              ${calSumMonthDinner[0].sum ?
+              (calSumMonthDinner[0].sum/30).toFixed(2) : 0}
+            </h4>
+            <h3>Snack Calories:</h3>
+            <h4 id="cals-Dinner-month">
+              ${calSumMonthSnack[0].sum ? calSumMonthSnack[0].sum : 0}
+            </h4>
+            <h3>Average Snack Calories:</h3>
+            <h4 id="cals-Dinner-month-avg">
+              ${calSumMonthSnack[0].sum ?
+              (calSumMonthSnack[0].sum/30).toFixed(2) : 0}
+            </h4>
           </div>
         </div>
       </div>

@@ -263,27 +263,45 @@ app.get("/cal_details", async (req, res) => {
     )}`
   );
   const calSumWeekBreak = await db.query(
-    `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}' AND food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'breakfast' AND user_id = ${parseInt(
+    `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'breakfast' AND user_id = ${parseInt(
       req.session.userGitID
     )}`
   );
   const calSumWeekLunch = await db.query(
-    `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}' AND food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'lunch' AND user_id = ${parseInt(
+    `SELECT SUM(calorie) FROM food_items WHERE meal = 'lunch' AND food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND user_id = ${parseInt(
       req.session.userGitID
     )}`
   );
   const calSumWeekDinner = await db.query(
-    `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}' AND food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'dinner' AND user_id = ${parseInt(
+    `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'dinner' AND user_id = ${parseInt(
       req.session.userGitID
     )}`
   );
   const calSumWeekSnack = await db.query(
-    `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}' AND food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'snack' AND user_id = ${parseInt(
+    `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'snack' AND user_id = ${parseInt(
       req.session.userGitID
     )}`
   );
-
-  console.log(calSumWeekLunch);
+  const calSumMonthBreak = await db.query(
+    `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'breakfast' AND user_id = ${parseInt(
+      req.session.userGitID
+    )}`
+  );
+  const calSumMonthLunch = await db.query(
+    `SELECT SUM(calorie) FROM food_items WHERE meal = 'lunch' AND food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND user_id = ${parseInt(
+      req.session.userGitID
+    )}`
+  );
+  const calSumMonthDinner = await db.query(
+    `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'dinner' AND user_id = ${parseInt(
+      req.session.userGitID
+    )}`
+  );
+  const calSumMonthSnack = await db.query(
+    `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND meal = 'snack' AND user_id = ${parseInt(
+      req.session.userGitID
+    )}`
+  );
 
   // getting all within the past 7 days:
   // SELECT * FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days'
@@ -309,6 +327,10 @@ app.get("/cal_details", async (req, res) => {
       calSumWeekLunch,
       calSumWeekDinner,
       calSumWeekSnack,
+      calSumMonthBreak,
+      calSumMonthLunch,
+      calSumMonthDinner,
+      calSumMonthSnack,
     },
     partials: {
       header: "/partials/header",
@@ -368,7 +390,7 @@ app.get("/logout", function (req, res) {
     req.session = null;
     req.user = null;
     req.logOut();
-    res.redirect("/");
+    res.redirect("/dashboard");
   });
 });
 
