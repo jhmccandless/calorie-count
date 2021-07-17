@@ -7,7 +7,7 @@
       <div class="summary-full">
         <div class="today-detail">
           <div id="big-cal">
-            <h2>Calories:</h2>
+            <h2>Today's Calories:</h2>
             <h1 id="cals-today">${calSumDay[0].sum ? calSumDay[0].sum : 0}</h1>
           </div>
           <div id="sum-table">
@@ -43,10 +43,29 @@
               </tbody>
             </table>
           </div>
+          <div class="meals-details">
+            <h3>Breakfast Calories:</h3>
+            <h4 id="cals-breakfast-today">
+              ${calSumTodayBreak[0].sum ? calSumTodayBreak[0].sum : 0}
+            </h4>
+            <h3>Lunch Calories:</h3>
+            <h4 id="cals-lunch-today">
+              ${calSumTodayLunch[0].sum ? calSumTodayLunch[0].sum : 0}
+            </h4>
+            <h3>Dinner Calories:</h3>
+            <h4 id="cals-Dinner-today">
+              ${calSumTodayDinner[0].sum ? calSumTodayDinner[0].sum : 0}
+            </h4>
+            <h3>Snack Calories:</h3>
+            <h4 id="cals-Dinner-today">
+              ${calSumTodayDinner[0].sum ? calSumTodayDinner[0].sum : 0}
+            </h4>
+          </div>
         </div>
+        <br />
         <div class="seven-day-detail">
           <div id="big-cal">
-            <h2>Calories:</h2>
+            <h2>7-Day Calories:</h2>
             <h1 id="cals-today">
               ${calSumWeek[0].sum ? calSumWeek[0].sum : 0}
             </h1>
@@ -84,10 +103,29 @@
               </tbody>
             </table>
           </div>
+          <div class="meals-details">
+            <h3>Breakfast Calories:</h3>
+            <h4 id="cals-breakfast-week">
+              ${calSumWeekBreak[0].sum ? calSumWeekBreak[0].sum : 0}
+            </h4>
+            <h3>Lunch Calories:</h3>
+            <h4 id="cals-lunch-week">
+              ${calSumWeekLunch[0].sum ? calSumWeekLunch[0].sum : 0}
+            </h4>
+            <h3>Dinner Calories:</h3>
+            <h4 id="cals-Dinner-week">
+              ${calSumWeekDinner[0].sum ? calSumWeekDinner[0].sum : 0}
+            </h4>
+            <h3>Snack Calories:</h3>
+            <h4 id="cals-Dinner-week">
+              ${calSumWeekDinner[0].sum ? calSumWeekDinner[0].sum : 0}
+            </h4>
+          </div>
         </div>
+        <br />
         <div class="month-detail">
           <div id="big-cal">
-            <h2>Calories:</h2>
+            <h2>30-Day Calories:</h2>
             <h1 id="cals-today">
               ${calSumMonth[0].sum ? calSumMonth[0].sum : 0}
             </h1>
