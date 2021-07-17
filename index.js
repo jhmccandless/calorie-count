@@ -66,14 +66,10 @@ app.use(
 app.use(function (request, response, next) {
   if (request.session.user) {
     next();
-  } else if (
-    request.path == "/login" ||
-    request.path == "/login-return" ||
-    request.path == "/"
-  ) {
+  } else if (request.path == "/login-return" || request.path == "/") {
     next();
   } else {
-    response.redirect("/login");
+    response.redirect("/login-return");
   }
 });
 
@@ -103,14 +99,15 @@ app.get(
   "/login",
   passport.authenticate("github", {
     scope: ["user:email"],
-  })
-  // async function (req, res) {
-  //   console.log(req.headers.cookie);
-  //   console.log(req.session);
-  //   console.log(req.sessionID);
-  //   The request will be redirected to GitHub for authentication, so this
-  //   function will not be called.
-  // }
+  }),
+  function (req, res) {
+    console.log(req.headers.cookie);
+    console.log(req.session);
+    console.log(req.sessionID);
+    // The request will be redirected to GitHub for authentication, so this
+    // function will not be called.
+    res.redirect("/login-return");
+  }
 );
 
 app.get(
@@ -127,7 +124,6 @@ app.get(
     );
 
     // console.log(userCheck);
-
     if (!userCheck[0]) {
       // console.log("new user");
       await db.none(
@@ -416,7 +412,7 @@ app.get("/logout", function (req, res) {
     req.session = null;
     req.user = null;
     req.logOut();
-    res.redirect("/dashboard");
+    res.redirect("/");
   });
 });
 
