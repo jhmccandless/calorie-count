@@ -82,6 +82,19 @@ let today = new Date();
 let date =
   today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
+// time formatting //
+const timeFormatFunc = function (str) {
+  let minutes = str.slice(3, 5);
+  let hours = str.slice(0, 2);
+  let militaryTimeInt = parseInt(hours + minutes);
+  if (militaryTimeInt > 2359 || minutes >= 60) {
+    return "Not A Valid Time";
+  }
+  let mornEve = parseInt(hours) < 11 ? "am" : "pm";
+  let hours12 = parseInt(hours) - 12 < 0 ? hours : hours - 12;
+  return `${hours12}:${parseInt(minutes)} ${mornEve}`;
+};
+
 app.get("/", function (request, response) {
   response.send(`Hello ${request.session.user}`);
 });
@@ -116,7 +129,7 @@ app.get(
     // console.log(userCheck);
 
     if (!userCheck[0]) {
-      console.log("new user");
+      // console.log("new user");
       await db.none(
         `INSERT INTO users (username, name, location, git_id) VALUES ('${req.session.user}', '${req.session.userFullName}', '${req.session.location}', ${req.session.userGitID})`
       );
@@ -135,6 +148,9 @@ app.get("/dashboard", async (req, res) => {
       req.session.userGitID
     )}`
   );
+  for (let i = 0; i < results.length; i++) {
+    results[i].timeFormatted = timeFormatFunc(results[i].food_time_input);
+  }
   const calSum = await db.query(
     `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
       req.session.userGitID
@@ -181,19 +197,16 @@ app.post("/food_input", (req, res) => {
       hour: "2-digit",
       minute: "2-digit",
     });
-    console.log(actualInputTime);
   } else if (foodInfo.time === "user_input_time") {
     let dbInputHour = foodInfo.user_input[3];
     let dbInputMinute = foodInfo.user_input[4];
     let dbInputAP = foodInfo.user_input[5];
     actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
-    console.log(actualInputTime);
   } else if (foodInfo.time === "user_input") {
     let dbInputHour = foodInfo.user_input[0];
     let dbInputMinute = foodInfo.user_input[1];
     let dbInputAP = foodInfo.user_input[2];
     actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
-    console.log(actualInputTime);
   }
   db.none(
     `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input, user_id) VALUES ('${
@@ -303,6 +316,19 @@ app.get("/cal_details", async (req, res) => {
     )}`
   );
 
+  for (let i = 0; i < resultsDay.length; i++) {
+    resultsDay[i].timeFormatted = timeFormatFunc(resultsDay[i].food_time_input);
+  }
+  for (let i = 0; i < resultsWeek.length; i++) {
+    resultsWeek[i].timeFormatted = timeFormatFunc(
+      resultsWeek[i].food_time_input
+    );
+  }
+  for (let i = 0; i < resultsMonth.length; i++) {
+    resultsMonth[i].timeFormatted = timeFormatFunc(
+      resultsMonth[i].food_time_input
+    );
+  }
   // getting all within the past 7 days:
   // SELECT * FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days'
 

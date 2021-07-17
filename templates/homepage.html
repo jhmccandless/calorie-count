@@ -39,7 +39,7 @@
                   ${el.meal.toLowerCase().slice(0,1).toUpperCase() +
                   el.meal.slice(1, el.length).toLowerCase()}
                 </th>
-                <th>${el.food_time_input}</th>
+                <th>${el.timeFormatted}</th>
                 <th>
                   ${el.food_date_input.toLocaleString( 'en-US', { day:
                   "numeric", year: "numeric", month: "long",})}
