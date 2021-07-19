@@ -86,7 +86,11 @@ const timeFormatFunc = function (str) {
 app.use(function (request, response, next) {
   if (request.session.user) {
     next();
-  } else if (request.path == "/login-return" || request.path == "/") {
+  } else if (
+    request.path == "/login-return" ||
+    request.path == "/" ||
+    request.path == "/login"
+  ) {
     console.log("testing 1");
     next();
   } else {
@@ -94,6 +98,17 @@ app.use(function (request, response, next) {
     response.redirect("/login-return");
   }
   // response.redirect("/login-return");
+});
+
+app.get("/", (req, res) => {
+  res.render("login", {
+    // locals: { results, calSum, date, today, session: req.session },
+    partials: {
+      header: "/partials/header",
+      head: "/partials/head",
+      footer: "/partials/footer",
+    },
+  });
 });
 
 app.get(
@@ -104,14 +119,14 @@ app.get(
   //     scope: ["user:email"],
   //   },
   function (req, res) {
-    console.log(req.headers.cookie);
-    console.log(req.session);
-    console.log(req.sessionID);
+    // console.log(req.headers.cookie);
+    // console.log(req.session);
+    // console.log(req.sessionID);
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
     // res.redirect("/login-return");
-    req.session = null;
-    console.log(req.headers);
+    // req.session = null;
+    // console.log(req.headers);
     res.redirect("/login-return");
   }
   // )
@@ -144,10 +159,6 @@ app.get(
     }
   }
 );
-
-app.get("/", (req, res) => {
-  res.send("working on deploytment");
-});
 
 app.get("/dashboard", async (req, res) => {
   // get session.user and make on url
@@ -395,8 +406,15 @@ app.get("/logout", function (req, res) {
     req.user = null;
     req.logOut();
     console.log("logged out");
+    res.render("logout", {
+      // locals: { results, calSum, date, today, session: req.session },
+      partials: {
+        header: "/partials/header",
+        head: "/partials/head",
+        footer: "/partials/footer",
+      },
+    });
   });
-  res.render("logout");
 });
 
 // const PORT = process.env.PORT || 3785;

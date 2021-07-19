@@ -55,6 +55,15 @@ h2 {
   text-align: center;
   justify-content: space-around;
 }
+#default-page {
+  flex: 1;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  justify-content: center;
+}
 
 /* calorie big */
 #big-cal {
