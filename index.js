@@ -8,7 +8,6 @@ const es6Renderer = require("express-es6-template-engine");
 const pgp = require("pg-promise")({});
 const dbsettings = process.env.DATABASE_URL || { database: "kcalorie" };
 const db = pgp(dbsettings);
-const PORT = process.env.PORT || 3785;
 const app = express();
 
 const session = require("express-session");
@@ -27,12 +26,14 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
+console.log(GITHUB_CLIENT_ID);
+
 passport.use(
   new GitHubStrategy(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:3785/login-return",
+      callbackURL: "http://localhost:3000/login-return",
     },
     function (accessToken, refreshToken, profile, done) {
       // asynchronous verification, for effect...
@@ -417,7 +418,7 @@ app.get("/logout", function (req, res) {
   });
 });
 
-// const PORT = process.env.PORT || 3785;
+const PORT = process.env.PORT || 3000;
 
 app.set("port", PORT);
 
