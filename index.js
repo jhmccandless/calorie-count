@@ -421,7 +421,7 @@ app.get("/logout", function (req, res) {
 
 app.set("port", PORT);
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`listenin on port: ${PORT}`);
 });
 
