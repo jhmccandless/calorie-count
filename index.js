@@ -135,15 +135,19 @@ app.get(
       await db.none(
         `INSERT INTO users (username, name, location, git_id) VALUES ('${req.session.user}', '${req.session.userFullName}', '${req.session.location}', ${req.session.userGitID})`
       );
-      res.redirect("/");
+      res.redirect("/dashboard");
     } else {
       // console.log("return user");
-      res.redirect("/");
+      res.redirect("/dashboard");
     }
   }
 );
 
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
+  res.send("working on deploytment");
+});
+
+app.get("/dashboard", async (req, res) => {
   // get session.user and make on url
   const results = await db.query(
     `SELECT * FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
@@ -227,7 +231,7 @@ app.post("/food_input", (req, res) => {
 });
 
 app.get("/food_input/confirmation", async (req, res) => {
-  res.redirect("/");
+  res.redirect("/dashboard");
 });
 
 app.get("/cal_details", async (req, res) => {
@@ -415,7 +419,7 @@ app.get("/food_input/confirmation", async (req, res) => {
 app.post("/food_input/confirmation", (req, res) => {
   // need a submit button,
   console.log(req);
-  res.redirect(`/`);
+  res.redirect(`/dashboard`);
 });
 
 // time formatting //
