@@ -8,7 +8,9 @@ const es6Renderer = require("express-es6-template-engine");
 const pgp = require("pg-promise")({});
 const dbsettings = process.env.DATABASE_URL || { database: "kcalorie" };
 const db = pgp(dbsettings);
+const PORT = process.env.PORT || 3785;
 const app = express();
+
 const session = require("express-session");
 
 const passport = require("passport");
@@ -397,7 +399,9 @@ app.get("/logout", function (req, res) {
   res.render("logout");
 });
 
-const PORT = process.env.PORT || 3785;
+// const PORT = process.env.PORT || 3785;
+
+app.set("port", PORT);
 
 app.listen(PORT, () => {
   console.log(`listenin on port: ${PORT}`);
