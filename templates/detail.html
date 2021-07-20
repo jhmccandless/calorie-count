@@ -66,10 +66,19 @@
         <div class="seven-day-detail">
           <div id="big-cal">
             <h2>7-Day Calories:</h2>
+            <br />
             <h1 id="cals-today">
               ${calSumWeek[0].sum ? calSumWeek[0].sum : 0}
             </h1>
           </div>
+          <div id="big-cal">
+            <h2>7-Day Average Calories:</h2>
+            <br />
+            <h1 id="cals-today">
+              ${calSumWeek[0].sum ? (calSumWeek[0].sum/7).toFixed(2) : 0}
+            </h1>
+          </div>
+          <br />
           <div id="sum-table">
             <table id="cal-table">
               <thead>
@@ -146,9 +155,19 @@
         <div class="month-detail">
           <div id="big-cal">
             <h2>30-Day Calories:</h2>
+            <br />
             <h1 id="cals-today">
               ${calSumMonth[0].sum ? calSumMonth[0].sum : 0}
             </h1>
+            <br />
+          </div>
+          <div id="big-cal">
+            <h2>30-Day Average Calories:</h2>
+            <br />
+            <h1 id="cals-today">
+              ${calSumMonth[0].sum ? (calSumMonth[0].sum/30).toFixed(2) : 0}
+            </h1>
+            <br />
           </div>
           <div id="sum-table">
             <table id="cal-table">
