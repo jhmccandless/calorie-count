@@ -26,8 +26,6 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
-console.log(GITHUB_CLIENT_ID);
-
 passport.use(
   new GitHubStrategy(
     {
@@ -80,8 +78,8 @@ const timeFormatFunc = function (str) {
     return "Not A Valid Time";
   }
   let mornEve = parseInt(hours) < 11 ? "am" : "pm";
-  let hours12 = parseInt(hours) - 12 < 0 ? hours : hours - 12;
-  return `${hours12}:${parseInt(minutes)} ${mornEve}`;
+  let hours12 = parseInt(hours) - 12 <= 0 ? hours : hours - 12;
+  return `${parseInt(hours12)}:${minutes} ${mornEve}`;
 };
 
 app.use(function (request, response, next) {
@@ -169,7 +167,9 @@ app.get("/dashboard", async (req, res) => {
     )}`
   );
   for (let i = 0; i < results.length; i++) {
+    console.log(results[i]);
     results[i].timeFormatted = timeFormatFunc(results[i].food_time_input);
+    console.log(results[i].timeFormatted);
   }
   const calSum = await db.query(
     `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
@@ -207,6 +207,7 @@ app.post("/food_input", (req, res) => {
       month: "2-digit",
       day: "2-digit",
     });
+    console.log(foodInfo);
   } else if (foodInfo.today === "user_input") {
     let dbInputMonth = foodInfo.user_input[0];
     let dbInputDay = foodInfo.user_input[1];
@@ -219,11 +220,12 @@ app.post("/food_input", (req, res) => {
       minute: "2-digit",
     });
   } else if (foodInfo.time === "user_input_time") {
-    let dbInputHour = foodInfo.user_input[3];
-    let dbInputMinute = foodInfo.user_input[4];
-    let dbInputAP = foodInfo.user_input[5];
+    let dbInputHour = foodInfo.user_input[0];
+    let dbInputMinute = foodInfo.user_input[1];
+    let dbInputAP = foodInfo.user_input[2];
     actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
   } else if (foodInfo.time === "user_input") {
+    console.log(foodInfo.user_input);
     let dbInputHour = foodInfo.user_input[0];
     let dbInputMinute = foodInfo.user_input[1];
     let dbInputAP = foodInfo.user_input[2];
