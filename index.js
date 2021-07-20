@@ -90,18 +90,17 @@ app.use(function (request, response, next) {
     request.path == "/" ||
     request.path == "/login"
   ) {
-    console.log("testing 1");
     next();
   } else {
-    console.log("testing 2");
     response.redirect("/login-return");
   }
   // response.redirect("/login-return");
 });
 
 app.get("/", (req, res) => {
+  let pageTitle = "Login";
   res.render("login", {
-    // locals: { results, calSum, date, today, session: req.session },
+    locals: { pageTitle },
     partials: {
       header: "/partials/header",
       head: "/partials/head",
@@ -118,14 +117,8 @@ app.get(
   //     scope: ["user:email"],
   //   },
   function (req, res) {
-    // console.log(req.headers.cookie);
-    // console.log(req.session);
-    // console.log(req.sessionID);
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
-    // res.redirect("/login-return");
-    // req.session = null;
-    // console.log(req.headers);
     res.redirect("/login-return");
   }
   // )
@@ -135,7 +128,7 @@ app.get(
   "/login-return",
   passport.authenticate("github", { failureRedirect: "/login-failure" }),
   async function (req, res) {
-    // console.log(req.user);
+    let pageTitle = "Login-Github";
     req.session.user = req.user.username;
     req.session.userFullName = req.user.displayName;
     req.session.userGitID = req.user.id;
@@ -144,16 +137,12 @@ app.get(
       `SELECT username FROM users WHERE username ILIKE '%${req.session.user}%'`
     );
 
-    // console.log(userCheck);
-    console.log("got to return");
     if (!userCheck[0]) {
-      // console.log("new user");
       await db.none(
         `INSERT INTO users (username, name, location, git_id) VALUES ('${req.session.user}', '${req.session.userFullName}', '${req.session.location}', ${req.session.userGitID})`
       );
       res.redirect("/dashboard");
     } else {
-      // console.log("return user");
       res.redirect("/dashboard");
     }
   }
@@ -161,33 +150,23 @@ app.get(
 
 app.get("/dashboard", async (req, res) => {
   // get session.user and make on url
+  let pageTitle = "Dashboard";
   const results = await db.query(
     `SELECT * FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
       req.session.userGitID
     )} ORDER BY food_time_input ASC`
   );
   for (let i = 0; i < results.length; i++) {
-    console.log(results[i]);
     results[i].timeFormatted = timeFormatFunc(results[i].food_time_input);
-    console.log(results[i].timeFormatted);
   }
   const calSum = await db.query(
     `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
       req.session.userGitID
     )}`
   );
-  //   getting todays calories:
-  //   use the date to refine table to just today
-
-  //   const results = await db.query(
-  //     `SELECT * FROM food_items WHERE food_date_input = '${date}'`
-  //   );
-  //   const calSum = await db.query(
-  //     `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}'`
-  //   );
 
   res.render("homepage", {
-    locals: { results, calSum, date, today, session: req.session },
+    locals: { pageTitle, results, calSum, date, today, session: req.session },
     partials: {
       header: "/partials/header",
       head: "/partials/head",
@@ -197,18 +176,15 @@ app.get("/dashboard", async (req, res) => {
 });
 
 app.post("/food_input", (req, res) => {
-  console.log("trujg to insert food");
   let actualInputDate;
   let actualInputTime;
   foodInfo = req.body;
-  console.log(foodInfo);
   if (foodInfo.today === "Today") {
     actualInputDate = new Date().toLocaleString("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     });
-    console.log(foodInfo);
   } else if (foodInfo.today === "user_input") {
     let dbInputMonth = foodInfo.user_input[0];
     let dbInputDay = foodInfo.user_input[1];
@@ -227,14 +203,11 @@ app.post("/food_input", (req, res) => {
     let dbInputAP = foodInfo.user_input[5];
     actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
   } else if (foodInfo.today === "Today") {
-    console.log(foodInfo.user_input);
     let dbInputHour = foodInfo.user_input[0];
     let dbInputMinute = foodInfo.user_input[1];
     let dbInputAP = foodInfo.user_input[2];
     actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
   }
-
-  console.log(actualInputDate, actualInputTime);
 
   db.none(
     `INSERT INTO food_items (food, calorie, meal, food_date_input, food_time_input, user_id) VALUES ('${
@@ -253,6 +226,7 @@ app.get("/food_input/confirmation", async (req, res) => {
 });
 
 app.get("/cal_details", async (req, res) => {
+  let pageTitle = "Details";
   const resultsDay = await db.query(
     `SELECT * FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
       req.session.userGitID
@@ -357,13 +331,9 @@ app.get("/cal_details", async (req, res) => {
       resultsMonth[i].food_time_input
     );
   }
-  // getting all within the past 7 days:
-  // SELECT * FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days'
-
-  // getting the month
-  // SELECT * FROM food_items WHERE food_date_input >= date_trunc('month', now()) - INTERVAL '1 month'
   res.render("detail", {
     locals: {
+      pageTitle,
       resultsDay,
       calSumDay,
       resultsMonth,
@@ -395,7 +365,11 @@ app.get("/cal_details", async (req, res) => {
 });
 
 app.get("/food_input", (req, res) => {
+  let pageTitle = "Food Input";
   res.render("add-food", {
+    locals: {
+      pageTitle,
+    },
     partials: {
       header: "/partials/header",
       head: "/partials/head",
@@ -405,14 +379,14 @@ app.get("/food_input", (req, res) => {
 });
 
 app.get("/logout", function (req, res) {
+  let pageTitle = "Logged Out";
   res.clearCookie("connect.sid");
   req.session.destroy(function (err) {
     req.session = null;
     req.user = null;
     req.logOut();
-    console.log("logged out");
     res.render("logout", {
-      // locals: { results, calSum, date, today, session: req.session },
+      locals: { pageTitle },
       partials: {
         header: "/partials/header",
         head: "/partials/head",
