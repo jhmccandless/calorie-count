@@ -78,7 +78,8 @@ const timeFormatFunc = function (str) {
     return "Not A Valid Time";
   }
   let mornEve = parseInt(hours) < 11 ? "am" : "pm";
-  let hours12 = parseInt(hours) - 12 <= 0 ? hours : hours - 12;
+  let hours12 =
+    parseInt(hours) - 12 < 0 || parseInt(hours) - 12 === 0 ? hours : hours - 12;
   return `${parseInt(hours12)}:${minutes} ${mornEve}`;
 };
 
