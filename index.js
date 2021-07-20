@@ -164,7 +164,7 @@ app.get("/dashboard", async (req, res) => {
   const results = await db.query(
     `SELECT * FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
       req.session.userGitID
-    )}`
+    )} ORDER BY food_time_input ASC`
   );
   for (let i = 0; i < results.length; i++) {
     console.log(results[i]);
@@ -201,6 +201,7 @@ app.post("/food_input", (req, res) => {
   let actualInputDate;
   let actualInputTime;
   foodInfo = req.body;
+  console.log(foodInfo);
   if (foodInfo.today === "Today") {
     actualInputDate = new Date().toLocaleString("en-US", {
       year: "numeric",
@@ -214,17 +215,18 @@ app.post("/food_input", (req, res) => {
     let dbInputYear = foodInfo.user_input[2];
     actualInputDate = `${dbInputYear}/${dbInputMonth}/${dbInputDay}`;
   }
+
   if (foodInfo.time === "Time") {
     actualInputTime = new Date().toLocaleString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
     });
-  } else if (foodInfo.time === "user_input_time") {
-    let dbInputHour = foodInfo.user_input[0];
-    let dbInputMinute = foodInfo.user_input[1];
-    let dbInputAP = foodInfo.user_input[2];
+  } else if (foodInfo.today === "user_input") {
+    let dbInputHour = foodInfo.user_input[3];
+    let dbInputMinute = foodInfo.user_input[4];
+    let dbInputAP = foodInfo.user_input[5];
     actualInputTime = `${dbInputHour}:${dbInputMinute} ${dbInputAP}`;
-  } else if (foodInfo.time === "user_input") {
+  } else if (foodInfo.today === "Today") {
     console.log(foodInfo.user_input);
     let dbInputHour = foodInfo.user_input[0];
     let dbInputMinute = foodInfo.user_input[1];
@@ -254,7 +256,7 @@ app.get("/cal_details", async (req, res) => {
   const resultsDay = await db.query(
     `SELECT * FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
       req.session.userGitID
-    )}`
+    )} ORDER BY food_time_input ASC`
   );
   const calSumDay = await db.query(
     `SELECT SUM(calorie) FROM food_items WHERE food_date_input = '${date}' AND user_id = ${parseInt(
@@ -264,7 +266,7 @@ app.get("/cal_details", async (req, res) => {
   const resultsWeek = await db.query(
     `SELECT * FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND user_id = ${parseInt(
       req.session.userGitID
-    )}ORDER BY food_date_input ASC`
+    )} ORDER BY food_date_input ASC, food_time_input ASC`
   );
   const calSumWeek = await db.query(
     `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '7 days' AND user_id = ${parseInt(
@@ -274,7 +276,7 @@ app.get("/cal_details", async (req, res) => {
   const resultsMonth = await db.query(
     `SELECT * FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '30 days' AND user_id = ${parseInt(
       req.session.userGitID
-    )} ORDER BY food_date_input ASC`
+    )} ORDER BY food_date_input ASC, food_time_input ASC`
   );
   const calSumMonth = await db.query(
     `SELECT SUM(calorie) FROM food_items WHERE food_date_input >= date_trunc('day', now()) - INTERVAL '30 days' AND user_id = ${parseInt(
