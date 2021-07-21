@@ -17,6 +17,10 @@ const GitHubStrategy = require("passport-github2").Strategy;
 
 var GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 var GITHUB_CLIENT_SECRET = process.env.GITHUB_SECRET;
+let CALLBACK_URL =
+  process.env.CALLBACK_URL_HEROKU || "http://localhost:3000/login-return";
+
+console.log(process.env);
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -31,7 +35,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/login-return",
+      callbackURL: CALLBACK_URL,
     },
     function (accessToken, refreshToken, profile, done) {
       // asynchronous verification, for effect...
